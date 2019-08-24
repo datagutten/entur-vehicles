@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle logs</title>
+</head>
+<body>
+{% include 'vehicle_type/vehicle.html' %}
+
+<table style="border: 1px solid black">
+<tr>
+    <th>Avgangstid</th>
+    <th>Linje</th>
+    <th>Vognløp</th>
+    <th>Fra</th>
+</tr>
+{% for log in logs %}
+    <tr>
+        <td>{{ log.origin_departure_time }}</td>
+        <td>{{ log.line_ref.title }}</td>
+        <td>{{ log.block_ref }}</td>
+        <td>{{ log.origin_quay_ref }}</td>
+
+    </tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
