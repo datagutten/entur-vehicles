@@ -1,0 +1,4 @@
+dateutils
+django-entur-data>=0.4
+entur-api>=0.9.1
+django
