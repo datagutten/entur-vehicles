@@ -1,0 +1,23 @@
+{% load sanntid_tags %}
+    {% for act in activities %}
+        <h2>{{ act.line_name }} {{ act.destination }} {{ act.block_ref_num }}</h2>
+
+        <p>
+        <progress value="{{ act.progress }}" max="100"></progress>
+        {{ act.vehicle }}<br />
+            {% if monitored_call.VehicleAtStop == 'true' %}
+            På holdeplass:
+            {% else %}
+            Sist innom:
+            {% endif %}<a href="{{ act.location_link }}">{{ act.monitored_call.StopPointName }}</a><br />
+            Neste holdeplass:
+            {{ act.onward_call.StopPointName }}<br />
+            Forrige holdeplass:
+            {{ act.previous_call.StopPointName }}<br />
+            Første holdeplass:
+            {{ act.origin }} {{ act.origin_time|time }}<br />
+            Siste holdeplass:
+            {{ act.destination }} {{ act.destination_time|time }}<br />
+
+        </p>
+    {% endfor %}

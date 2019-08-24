@@ -1,0 +1,21 @@
+{% extends 'sanntid/base.html' %}
+{% load static %}
+{% block content %}
+
+    <label for="holdeplass">Holdeplass:</label>
+    <input type="text" name="holdeplass" id="holdeplass">
+
+    <p id="demo">Trykk p&aring; knappen for &aring; finne holdeplasser n&aelig;r deg</p>
+    <button id="get_location">I n&aelig;rheten</button>
+
+    <div id="stops"></div>
+    <div id="error"></div>
+    <script>
+        stops_latlon_url = "{% url 'sanntid:stops_latlon' %}";
+        autocomplete_url = "{% url 'sanntid:autocomplete' %}";
+
+    </script>
+    <script src="{% static 'sanntid/js/find_stop.js' %}"></script>
+
+
+{% endblock %}

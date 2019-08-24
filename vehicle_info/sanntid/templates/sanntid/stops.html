@@ -1,0 +1,7 @@
+{% block content %}
+    <ul>
+    {% for stop in stops %}
+        <li><a href="{% url 'sanntid:stop_departures' stop=stop.properties.id %}">{{ stop.properties.name }} ({{stop.properties.locality }})</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
