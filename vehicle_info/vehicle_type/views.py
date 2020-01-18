@@ -1,11 +1,10 @@
+import json
+
+from django.http import HttpResponse
 from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponse
-
 from vehicle_type.info import VehicleInfo
-
-from .models import Vehicle, ExpectedVehicle
+from .models import ExpectedVehicle
 
 
 def index(request):
