@@ -7,4 +7,4 @@ install:
   - pip install -r requirements.txt
   - cd vehicle_info
   - cp vehicle_info/local_settings_test.py vehicle_info/local_settings.py
-  - python manage.py syncdb
+  - python manage.py migrate
