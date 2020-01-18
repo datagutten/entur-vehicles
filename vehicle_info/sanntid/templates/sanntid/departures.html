@@ -23,7 +23,7 @@
                     <span class="delay">{{ departure|delay }}</span>
                 {% endif %}
                 {% if departure.vehicle %}
-                    (<span>{{ departure.vehicle.vehicle }}/{{departure.vehicle.block_ref_num }}</span>)
+                    (<span>{{ departure.vehicle.vehicle|split_number }}/{{departure.vehicle.block_ref_num }}</span>)
                 {% endif %}
             </span>
             {% endfor %}

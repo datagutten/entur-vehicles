@@ -1,6 +1,7 @@
 import dateutil.parser
 from django import template
 import re
+from django.core.exceptions import ObjectDoesNotExist
 
 register = template.Library()
 
@@ -104,3 +105,19 @@ def delay(departure):
 
 
 register.filter('delay', delay)
+
+
+def split_number(number):
+    from vehicle_type.info import VehicleInfo
+    number = int(number)
+    try:
+        vehicle = VehicleInfo.info(number)
+        if vehicle.num_prefix:
+            return '%d-%d' % (vehicle.num_prefix, vehicle.remove_prefix(number))
+
+    except ObjectDoesNotExist:
+        pass
+    return number
+
+
+register.filter('split_number', split_number)
