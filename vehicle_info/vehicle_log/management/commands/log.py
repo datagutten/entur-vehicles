@@ -1,12 +1,8 @@
-import re
-import xml.etree.ElementTree
-
 from django.core.management.base import BaseCommand
-from vehicle_log.models import VehicleLog
-
-from datetime import datetime
 from entur_api.siri import Siri
 from rutedata.models import Line
+
+from vehicle_log.models import VehicleLog
 
 
 class Command(BaseCommand):
