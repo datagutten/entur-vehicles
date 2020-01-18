@@ -23,16 +23,11 @@ class VehicleLog(models.Model):
         return '%s %s %s' % (line, self.operator_ref,
                              self.vehicle_ref)
 
-    def get_prefix(self):
-        import math
-        dec = self.vehicle_ref / 10000
-        prefix = math.floor(dec)
-        return [prefix, int((dec - prefix) * 10000)]
-
     def vehicle_type(self):
         from vehicle_type.models import Vehicle
-        [prefix, number] = self.get_prefix()
-        print('Number: %s Prefix: %s' % (number, prefix))
+        from vehicle_type.info import VehicleInfo
+        [prefix, number] = VehicleInfo.parse_number(self.vehicle_ref)
+        # print('Number: %s Prefix: %s' % (number, prefix))
         try:
             return Vehicle.objects.get(numlow__lte=number, numhigh__gte=number, num_prefix=prefix)
         except Vehicle.DoesNotExist:

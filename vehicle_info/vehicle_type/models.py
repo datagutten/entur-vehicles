@@ -1,5 +1,6 @@
 from django.db import models
 from vehicle_log.models import VehicleLog
+from vehicle_type.info import VehicleInfo
 
 
 class Operator(models.Model):
@@ -47,17 +48,15 @@ class Vehicle(models.Model):
 
         return lines
 
+    def remove_prefix(self, number):
+        prefix, number = VehicleInfo.parse_number(number, self.num_prefix)
+        return number
+
     def numlow_noprefix(self):
-        if self.num_prefix:
-            return self.numlow - (self.num_prefix*1000)
-        else:
-            return self.numlow
+        return self.remove_prefix(self.numlow)
 
     def numhigh_noprefix(self):
-        if self.num_prefix:
-            return self.numhigh - (self.num_prefix*1000)
-        else:
-            return self.numhigh
+        return self.remove_prefix(self.numhigh)
 
     class Meta:
         ordering = ['numlow']

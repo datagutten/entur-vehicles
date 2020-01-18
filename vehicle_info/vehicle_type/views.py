@@ -2,6 +2,9 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
+
+from vehicle_type.info import VehicleInfo
+
 from .models import Vehicle, ExpectedVehicle
 
 
@@ -19,8 +22,8 @@ def vehicle_info(request, vehicle_id):
     return info
 
 
-def vehicle_info_string (request, vehicle_id):
-    info = vehicle_info(request, vehicle_id)
+def vehicle_info_string(request, vehicle_id):
+    info = VehicleInfo.info(vehicle_id)
     if not info:
         return HttpResponse('Ukjent internnummer: ' + str(vehicle_id))
     else:
@@ -28,8 +31,7 @@ def vehicle_info_string (request, vehicle_id):
 
 
 def vehicle_expected(request, line_number, vehicle_number):
-    #return HttpResponse("Is %d excepted." % vehicle_id)
-    info = vehicle_info(request, vehicle_number)
+    info = VehicleInfo.info(vehicle_number)
     if not info:
         return HttpResponse('Ukjent internnummer: ' + str(vehicle_number))
     try:

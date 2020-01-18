@@ -6,7 +6,7 @@ from .models import ExpectedVehicle, Operator, Vehicle
 
 class VehicleAdmin(admin.ModelAdmin):
     readonly_fields = ['seen_on', 'seen_on_links']
-    list_display = ['type', 'length', 'year', 'numlow', 'numhigh']
+    list_display = ['type', 'length', 'year', 'num_prefix', 'numlow', 'numhigh']
 
 
 admin.site.register(Vehicle, VehicleAdmin)
