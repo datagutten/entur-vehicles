@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        #('rutedata', '0001_initial'),
+        ('rutedata', '0001_initial'),
         ('vehicle_log', '0004_auto_20190729_0832'),
     ]
 
