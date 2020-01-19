@@ -4,7 +4,7 @@
 
         <p>
         <progress value="{{ act.progress }}" max="100"></progress>
-        {{ act.vehicle }}<br />
+            <a href="{% url 'logs:vehicle_log' vehicle_id=act.vehicle %}">{{ act.vehicle|split_number }}</a><br />
             {% if monitored_call.VehicleAtStop == 'true' %}
             På holdeplass:
             {% else %}
