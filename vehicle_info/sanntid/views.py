@@ -1,11 +1,12 @@
 from pprint import pprint
 
 import dateutil.parser
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from entur_api.geocoder import GeoCoder
 from entur_api.journey_planner import EnturApi
 from entur_api.siri import Siri
 from sanntid.models import EndStops
+from rutedata.models import Stop
 
 entur = EnturApi('datagutten-sanntidpluss')
 geocoder = GeoCoder('datagutten-sanntidpluss')
@@ -46,7 +47,7 @@ def vehicle_data(departure):
                 pass
 
 
-def stop_departures(request, stop):
+def get_stop_departures(stop):
     departures = entur.stop_departures_app(stop, 20)
     departures_sorted = dict()
     for departure in departures['data']['stopPlace']['estimatedCalls']:
@@ -67,8 +68,22 @@ def stop_departures(request, stop):
             departures_sorted[quay_id][dest] = []
 
         departures_sorted[quay_id][dest].append(departure)
+    return departures_sorted
 
-    return render(request, 'sanntid/departures.html', {'departures': departures_sorted})
+
+def get_quay_departures():
+    pass
+
+
+def stop_departures(request, stop):
+    departures_sorted = get_stop_departures(stop)
+    try:
+        stop_info = Stop.objects.get(id=stop)
+        stop_name = stop_info.Name
+    except Stop.DoesNotExist:
+        stop_name = stop
+
+    return render(request, 'sanntid/departures.html', {'departures': departures_sorted, 'title': stop_name})
 
 
 def select_stop(request):
