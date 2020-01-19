@@ -111,6 +111,6 @@ def vehicle_status(request, line, line2=None):
 def autocomplete(request):
     text = request.GET.get('text')
     data = geocoder.get(
-        'https://api.entur.io/geocoder/v1/autocomplete?lang=no&layers=venue&boundary.county_ids=02,03&text=' + text)
+        'https://api.entur.io/geocoder/v1/autocomplete?lang=no&layers=venue&boundary.county_ids=03,30&text=' + text)
     return render(request, 'sanntid/stops.html', context=
                   {'stops': data['features']})
