@@ -1,3 +1,6 @@
+from vehicle_log.models import VehicleLog
+
+
 class VehicleInfo:
     @staticmethod
     def info(vehicle_id):
@@ -25,3 +28,11 @@ class VehicleInfo:
             prefix = int(number[0:2])
             number = int(number[2:])
         return prefix, number
+
+    @staticmethod
+    def seen_on(number):
+        # prefix, number = VehicleInfo.parse_number(number)
+
+        log = VehicleLog.objects.filter(vehicle_ref=number)
+        lines = log.values('line').distinct().order_by('line')
+        return lines

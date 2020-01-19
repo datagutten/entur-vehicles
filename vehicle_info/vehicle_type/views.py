@@ -1,5 +1,6 @@
 import json
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -12,13 +13,28 @@ def index(request):
 
 
 def vehicle_info(request, vehicle_id):
-    # return HttpResponse("You're looking at vehicle %s." % vehicle_id)
     try:
-        info = Vehicle.objects.filter(numlow__lte=vehicle_id)
-        info = info.get(numhigh__gte=vehicle_id)
-    except Vehicle.DoesNotExist:
-        return False
-    return info
+        vehicle = VehicleInfo.info(vehicle_id)
+    except ObjectDoesNotExist:
+        return HttpResponse('Ukjent internnummer: %d' % vehicle_id)
+
+    return render(request, 'vehicle_type/vehicle.html', {'vehicle': vehicle, 'vehicle_id': vehicle_id})
+
+
+def info_json(request, vehicle_id):
+    try:
+        vehicle = VehicleInfo.info(vehicle_id)
+        data = {'operator': vehicle.operator.name,
+                'type': vehicle.type,
+                'length': vehicle.length,
+                'year': vehicle.year,
+                'number': vehicle.remove_prefix(vehicle_id),
+                'string': str(vehicle),
+                'error': '',
+                }
+    except ObjectDoesNotExist:
+        data = {'error': 'Ukjent internnummer: %d' % vehicle_id}
+    return HttpResponse(json.dumps(data))
 
 
 def vehicle_info_string(request, vehicle_id):
