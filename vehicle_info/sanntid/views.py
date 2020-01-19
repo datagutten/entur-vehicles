@@ -5,50 +5,10 @@ from django.shortcuts import render
 from entur_api.geocoder import GeoCoder
 from entur_api.journey_planner import EnturApi
 from entur_api.siri import Siri
-from rutedata.models import PassingTime, ServiceJourney
 from sanntid.models import EndStops
 
 entur = EnturApi('datagutten-sanntidpluss')
 geocoder = GeoCoder('datagutten-sanntidpluss')
-
-
-def origin_departure_time_db(departure):
-    try:
-        journey_db = ServiceJourney.objects.get(id=departure['serviceJourney']['id'])
-        origin_departure = journey_db.first_passing()
-
-        date = dateutil.parser.parse(departure['aimedDepartureTime'])
-        combined = date.combine(date, origin_departure.departure_time, tzinfo=date.tzinfo)
-        return [origin_departure, combined.isoformat()]
-
-    except ServiceJourney.DoesNotExist:
-        print('Missing ServiceJourney %s' % departure['serviceJourney']['id'])
-        return [None, None]
-    except PassingTime.DoesNotExist:
-        print('Missing PassingTime %s' % departure['serviceJourney']['id'])
-        return [None, None]
-
-
-def origin_departure_time_xml(departure):
-    from rutedata.load_xml.LinePassingHelper import LinePassingHelper
-    from datetime import datetime
-    try:
-        journey_id = departure['serviceJourney']['id']
-        line_id = departure['serviceJourney']['journeyPattern']['line']['id']
-        helper = LinePassingHelper(line_id=line_id, service_journey_id=journey_id)
-        first_passing = helper.first_passing()
-        print(first_passing)
-        departure_time = first_passing.find('./netex:DepartureTime', helper.namespaces)
-        departure_time = departure_time.text
-        print(departure_time)
-        departure_time_time = datetime.strptime(departure_time, '%H:%M:%S')
-
-        date = dateutil.parser.parse(departure['aimedDepartureTime'])
-        combined = date.combine(date, departure_time_time.time(), tzinfo=date.tzinfo)
-        return [helper.first_quay(), combined.isoformat()]
-    except Exception as e:
-        print(e)
-        return [None, None]
 
 
 def origin_departure_time(departure):
