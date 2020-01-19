@@ -1,0 +1,7 @@
+{% extends 'vehicle_log/base.html' %}
+
+{% block body %}
+    {% for id, vehicle in vehicles %}
+        <a href="{% url 'logs:vehicle_log' vehicle_id=id %}">{{ id }}</a>: {{ vehicle }}<br />
+    {% endfor %}
+{% endblock %}

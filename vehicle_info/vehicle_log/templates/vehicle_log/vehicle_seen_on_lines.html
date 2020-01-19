@@ -1,0 +1,5 @@
+{% load rutedata_tags %}
+
+{% for line in logs %}
+    <a href="{% url 'logs:vehicles_on_line' line=line.line %}">{{ line.line|line_name }}</a><br />
+{% endfor %}

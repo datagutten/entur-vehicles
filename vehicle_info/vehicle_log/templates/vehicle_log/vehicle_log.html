@@ -1,0 +1,16 @@
+{% extends 'vehicle_log/base.html' %}
+{% block title %}
+<title>Vogn: {{ vehicle.operator }} {{ number }}</title>
+{% endblock %}
+{% block body %}
+    <h1>{{ vehicle.operator }} {{ number }}</h1>
+    {% if vehicle %}
+        <h2>Informasjon om vogn</h2>
+        {{ vehicle.type }} {{ vehicle.length }}m {{ vehicle.year }}<br />
+        Internnummer {{ vehicle.numlow }} - {{ vehicle.numhigh }}
+    {% endif %}
+    <h2>Sett p&aring; linjer</h2>
+    {% include 'vehicle_log/vehicle_seen_on_lines.html' with logs=lines %}
+    <h2>Siste avganger</h2>
+    {% include 'vehicle_log/logs_table.html' %}
+{% endblock %}
