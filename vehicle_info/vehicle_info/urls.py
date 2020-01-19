@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sanntid.urls')),
     path('log/', include('vehicle_log.urls')),
+    path('vehicle/', include('vehicle_type.urls'))
 ]
