@@ -1,5 +1,5 @@
 from django import template
-from rutedata.models import Line
+from rutedata.models import Line, Quay
 
 register = template.Library()
 
@@ -14,3 +14,16 @@ def line_name(line_ref):
 
 register.filter('line_name', line_name)
 
+
+def quay_name(quay_ref):
+    try:
+        quay = Quay.objects.get(id=quay_ref)
+        if not quay.name:
+            return quay.Stop.Name
+        else:
+            return '%s (%s)' % (quay.Stop.Name, quay.name)
+    except Quay.DoesNotExist:
+        return quay_ref
+
+
+register.filter('quay_name', quay_name)
