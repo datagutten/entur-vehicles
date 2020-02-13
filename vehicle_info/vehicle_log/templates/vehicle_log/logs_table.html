@@ -1,3 +1,4 @@
+{% load rutedata_tags %}
 <style>
     table, th, td {
   border: 1px solid black;
@@ -15,8 +16,8 @@
     <tr>
         <td>{{ log.origin_departure_time }}</td>
         <td>{{ log.line }}</td>
-        <td>{{ log.block_ref }}</td>
-        <td>{{ log.origin_quay_ref }}</td>
+        <td><a href="{% url 'logs:block_ref_log' block_ref=log.block_ref %}">{{ log.block_ref }}</a></td>
+        <td>{{ log.origin_quay_ref|quay_name }}</td>
 
     </tr>
 {% endfor %}

@@ -48,3 +48,8 @@ def line_log(request, line):
             vehicles_obj[key] = vehicle['vehicle_ref']
 
     return render(request, 'vehicle_log/line_log.htm', {'vehicles': vehicles_obj.items()})
+
+
+def block_ref_log(request, block_ref):
+    logs = VehicleLog.objects.filter(block_ref=block_ref)
+    return render(request, 'vehicle_log/logs_table.html', {'logs': logs})

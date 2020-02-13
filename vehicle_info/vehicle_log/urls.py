@@ -5,5 +5,6 @@ from . import views
 app_name = 'logs'
 urlpatterns = [
     path('vehicle/<str:vehicle_id>', views.vehicle_log, name='vehicle_log'),
-    path('line/<str:line>', views.line_log, name='vehicles_on_line'),
+    path('line/<str:line>', views.line_log, name='line_log'),
+    path('block_ref/<str:block_ref>', views.block_ref_log, name='block_ref_log'),
 ]
