@@ -3,7 +3,7 @@ python:
   - "3.7"
   - "3.8"
 # command to install dependencies
-install:
+script:
   - pip install -r requirements.txt
   - cd vehicle_info
   - cp vehicle_info/local_settings_test.py vehicle_info/local_settings.py
