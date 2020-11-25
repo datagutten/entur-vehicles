@@ -115,13 +115,17 @@ def vehicle_status(request, line, line2=None):
         siri2 = Siri('datagutten-sanntidpluss', line=line2)
         activities2 = siri2.vehicle_activities()
         cols = request.GET.get('cols', 'false')
+        context = {'activities1': activities,
+                   'activities2': activities2,
+                   'line1': line,
+                   'line2': line2
+                   }
         if cols == 'false':
-            return render(request, 'sanntid/activities2_list.html', {'activities1': activities, 'activities2': activities2})
+            return render(request, 'sanntid/activities2_list.html', context)
         else:
-            return render(request, 'sanntid/activities2.html', {'activities1': activities, 'activities2': activities2})
+            return render(request, 'sanntid/activities2.html', context)
     else:
-        activities2 = None
-        return render(request, 'sanntid/activities.html', {'activities': activities})
+        return render(request, 'sanntid/activities.html', {'activities': activities, 'line': line})
 
 
 def autocomplete(request):
