@@ -10,4 +10,6 @@ urlpatterns = [
     path('autocomplete', views.autocomplete, name='autocomplete'),
     path('vehicles/<str:line>/<str:line2>', views.vehicle_status, name='vehicles2'),
     path('vehicles/<str:line>', views.vehicle_status, name='vehicles'),
+    path('departures/quay/<str:quay>.json', views.departures_json, name='departures_quay_json'),
+    path('departures/stop/<str:stop>.json', views.departures_json, name='departures_stop_json'),
 ]

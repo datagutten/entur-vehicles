@@ -1,6 +1,7 @@
 from pprint import pprint
 
 import dateutil.parser
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse
 from entur_api.geocoder import GeoCoder
 from entur_api.journey_planner import EnturApi
@@ -129,3 +130,9 @@ def autocomplete(request):
         'https://api.entur.io/geocoder/v1/autocomplete?lang=no&layers=venue&boundary.county_ids=03,30&text=' + text)
     return render(request, 'sanntid/stops.html', context=
                   {'stops': data['features']})
+
+
+def departures_json(request, stop=None, quay=None):
+    if stop is not None:
+        departures = entur.stop_departures_app(stop, 20)
+        return JsonResponse(departures, safe=False)
