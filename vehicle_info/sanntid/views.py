@@ -94,18 +94,14 @@ def select_stop(request):
 def stops_latlon(request):
     latitude = request.GET.get('lat')
     longitude = request.GET.get('lon')
-    print(latitude, longitude)
+
     url = 'https://api.entur.io/geocoder/v1/reverse?point.lat=%s&point.lon=%s&lang=en&size=10&layers=venue' \
           % (latitude, longitude)
-    print(url)
+
     # stops = geocoder.reverse(latitude, longitude)
     data = geocoder.get(url)
-    stops = data['features']
 
-    pprint(stops)
-
-    context = {'stops': stops}
-    return render(request, 'sanntid/stops.html', context=context)
+    return render(request, 'sanntid/stops.html', {'stops': data['features']})
 
 
 def vehicle_status(request, line, line2=None):
