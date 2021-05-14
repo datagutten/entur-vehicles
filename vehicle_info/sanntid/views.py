@@ -125,7 +125,11 @@ def vehicle_status(request, line, line2=None):
         else:
             return render(request, 'sanntid/activities2.html', context)
     else:
-        return render(request, 'sanntid/activities.html', {'activities': activities, 'line': line})
+        return render(request, 'sanntid/activities.html', {
+            'activities': activities,
+            'line': line,
+            'title': 'Aktive vogner på linje %s' % line
+        })
 
 
 def autocomplete(request):

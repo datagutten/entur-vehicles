@@ -1,23 +1,26 @@
+{% extends 'vehicle_type/base.html' %}
 {% load sanntid_tags %}
+
+{% block body %}
     {% for act in activities %}
         <h2>{{ act.line_name }} {{ act.destination }} {{ act.block_ref_num }}</h2>
-
         <p>
-        <progress value="{{ act.progress }}" max="100"></progress>
-            <a href="{% url 'logs:vehicle_log' vehicle_id=act.vehicle %}">{{ act.vehicle|split_number }}</a><br />
+            <progress value="{{ act.progress }}" max="100"></progress>
+            <a href="{% url 'logs:vehicle_log' vehicle_id=act.vehicle %}">{{ act.vehicle|split_number }}</a><br/>
             {% if monitored_call.VehicleAtStop == 'true' %}
-            På holdeplass:
+                På holdeplass:
             {% else %}
-            Sist innom:
-            {% endif %}<a href="{{ act.location_link }}">{{ act.monitored_call.StopPointName }}</a><br />
+                Sist innom:
+            {% endif %}<a href="{{ act.location_link }}">{{ act.monitored_call.StopPointName }}</a><br/>
             Neste holdeplass:
-            {{ act.onward_call.StopPointName }}<br />
+            {{ act.onward_call.StopPointName }}<br/>
             Forrige holdeplass:
-            {{ act.previous_call.StopPointName }}<br />
+            {{ act.previous_call.StopPointName }}<br/>
             Første holdeplass:
-            {{ act.origin }} {{ act.origin_time|time }}<br />
+            {{ act.origin }} {{ act.origin_time|time }}<br/>
             Siste holdeplass:
-            {{ act.destination }} {{ act.destination_time|time }}<br />
-
+            {{ act.destination }} {{ act.destination_time|time }}<br/>
         </p>
     {% endfor %}
+    <a href="{% url 'logs:line_log' line=line %}">Vis logg for vogner på linje {{ line|line_num }}</a>
+{% endblock %}
