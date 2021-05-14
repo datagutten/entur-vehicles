@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'vehicle_type.apps.VehicleTypeConfig',
     'sanntid.apps.SanntidConfig',
     'rutedata.apps.RutedataConfig',
     'vehicle_log.apps.VehicleLogConfig',
