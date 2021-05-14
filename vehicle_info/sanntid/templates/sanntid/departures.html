@@ -12,7 +12,7 @@
         {% for line, quay_departures in lines.items %}
         <li>
             <div class="heading" style="background: {{ line|color }}">
-                <a class="status_link" href="{% url 'sanntid:vehicles' line=line|line_id %}">
+                <a class="status_link" href="{% url 'active-vehicles' line=line|line_id %}">
                 <span style="background: {{ line|color }}">{{ line|line_num }}</span>
                 <span class="time">{{ line|dest_text }}</span></a>
             </div>
