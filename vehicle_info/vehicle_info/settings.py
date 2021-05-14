@@ -34,10 +34,11 @@ INSTALLED_APPS = [
     'sanntid.apps.SanntidConfig',
     'rutedata.apps.RutedataConfig',
     'vehicle_log.apps.VehicleLogConfig',
-    'vehicle_type.apps.VehicleTypeConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,5 +106,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+INTERNAL_IPS = [
+    '192.168.1.112',
+]
 
 from .local_settings import *
