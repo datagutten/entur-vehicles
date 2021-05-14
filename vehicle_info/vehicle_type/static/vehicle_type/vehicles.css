@@ -1,0 +1,36 @@
+body {
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+}
+
+thead th, tbody td {
+    font-size: 13px;
+    line-height: 16px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    padding: 8px;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+thead th {
+    background-color: #FFFFFF;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9
+}
+
+tr:nth-child(odd) {
+    background: #FFF
+}
+
+h2 {
+    margin-top: 2em;
+}
+
+h3 {
+    margin-top: 2em;
+}
+
+.error {
+    color: red;
+}

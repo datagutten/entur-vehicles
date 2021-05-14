@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <link rel="stylesheet" href="{% static 'vehicle_type/vehicles.css' %}" type="text/css">
+    <meta charset="UTF-8">
+    <title>{{ title|default:"Vogninformasjon" }}</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+<h1>{{ title|default:"" }}</h1>
+{% block body %}
+{% endblock %}
+</body>
+</html>

@@ -1,7 +1,31 @@
-{% extends 'vehicle_log/base.html' %}
+{% extends 'vehicle_type/base.html' %}
 
 {% block body %}
-    {% for id, vehicle in vehicles %}
-        <a href="{% url 'logs:vehicle_log' vehicle_id=id %}">{{ id }}</a>: {{ vehicle }}<br />
-    {% endfor %}
+
+    <a href="{% url 'sanntid:active-vehicles' line=line_id %}">Vis aktive vogner på {{ line_id }}</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Operatør</th>
+            <th>Internnummer</th>
+            <th>Type</th>
+            <th>Lengde</th>
+            <th>Årsmodell</th>
+        </tr>
+        </thead>
+        {% for id, vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle.operator }}</td>
+                <td><a href="{% url 'logs:vehicle_log' vehicle_id=id %}"
+                       title="Vis logg for {{ vehicle.operator }} {{ id }}">{{ id }}</a></td>
+                <td>{{ vehicle.type }}</td>
+                {% if vehicle.length %}
+                    <td>{{ vehicle.length }}m</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>{{ vehicle.year }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
