@@ -39,15 +39,6 @@ class Vehicle(models.Model):
         lines = log.values('line').distinct().order_by('line')
         return lines
 
-    def seen_on_links(self):
-        from rutedata.models import Line
-
-        lines = ''
-        for line_id in self.seen_on():
-            lines += "%s\n" % Line.objects.get(id=line_id['line'])
-
-        return lines
-
     def remove_prefix(self, number):
         prefix, number = VehicleInfo.parse_number(number, self.num_prefix)
         return number
