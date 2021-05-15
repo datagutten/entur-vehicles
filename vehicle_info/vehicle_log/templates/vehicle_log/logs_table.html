@@ -1,24 +1,47 @@
 {% load rutedata_tags %}
-<style>
-    table, th, td {
-  border: 1px solid black;
-}
-</style>
 <table>
-<tr>
-    <th>Avgangstid</th>
-    <th>Linje</th>
-    <th>Vognløp</th>
-    <th>Fra</th>
-</tr>
-
-{% for log in logs %}
     <tr>
-        <td>{{ log.origin_departure_time }}</td>
-        <td>{{ log.line }}</td>
-        <td><a href="{% url 'logs:block_ref_log' block_ref=log.block_ref %}">{{ log.block_ref }}</a></td>
-        <td>{{ log.origin_quay_ref|quay_name }}</td>
-
+        <th>Avgangstid</th>
+        {% if hide != 'line' %}
+            <th>Linje</th>
+        {% endif %}
+        {% if hide != 'block_ref' %}
+            <th>Vognløp</th>
+        {% endif %}
+        {% if hide != 'vehicle' %}
+            <th>Vogn</th>
+        {% endif %}
+        <th>Fra</th>
     </tr>
-{% endfor %}
+
+    {% for log in logs %}
+        <tr>
+            <td>{{ log.origin_departure_time }}</td>
+            {% if hide != 'line' %}
+                {% if log.line_id %}
+                    <td><a href="{% url 'logs:line_log' line=log.line.id %}">{{ log.line }}</a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            {% endif %}
+            {% if hide != 'block_ref' %}
+                <td><a href="{% url 'logs:block_ref_log' block_ref=log.block_ref %}">{{ log.block_ref }}</a></td>
+            {% endif %}
+            {% if hide != 'vehicle' %}
+                <td>
+                {% if log.find_vehicle_type %}
+                <a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.find_vehicle_type }}</a>
+                    {% else %}
+                    <a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.vehicle_ref }}</a>
+                {% endif %}
+                </td>
+            {% endif %}
+            {% if log.origin_id %}
+                <td>{{ log.origin.Stop.Name }}</td>
+            {% else %}
+                <td>{{ log.origin_quay_ref|quay_name }}</td>
+            {% endif %}
+
+        </tr>
+    {% endfor %}
 </table>
