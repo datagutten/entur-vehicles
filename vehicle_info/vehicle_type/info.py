@@ -1,17 +1,15 @@
-from vehicle_log.models import VehicleLog
-
-
 class VehicleInfo:
     @staticmethod
     def info(vehicle_id):
         from vehicle_type.models import Vehicle
         prefix, vehicle_id = VehicleInfo.parse_number(vehicle_id)
+        vehicle = Vehicle.objects.select_related('operator')
 
         if prefix:
-            info = Vehicle.objects.filter(numlow__lte=vehicle_id, num_prefix=prefix)
+            info = vehicle.filter(numlow__lte=vehicle_id, num_prefix=prefix)
             info = info.get(numhigh__gte=vehicle_id, num_prefix=prefix)
         else:
-            info = Vehicle.objects.filter(numlow__lte=vehicle_id)
+            info = vehicle.filter(numlow__lte=vehicle_id)
             info = info.get(numhigh__gte=vehicle_id)
         return info
 
@@ -31,8 +29,7 @@ class VehicleInfo:
 
     @staticmethod
     def seen_on(number):
-        # prefix, number = VehicleInfo.parse_number(number)
-
+        from vehicle_log.models import VehicleLog
         log = VehicleLog.objects.filter(vehicle_ref=number)
         lines = log.values('line').distinct().order_by('line')
         return lines
