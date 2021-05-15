@@ -16,7 +16,7 @@ def vehicle_log(request, vehicle_id):
     except ObjectDoesNotExist:
         vehicle = None
         number = vehicle_id
-        title = 'Vogn %d' % number
+        title = 'Vogn %s' % number
 
     logs = VehicleLog.objects.filter(vehicle_ref=vehicle_id)
 
