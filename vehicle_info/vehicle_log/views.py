@@ -73,8 +73,12 @@ def line_log(request, line):
 
 
 def block_ref_log(request, block_ref):
-    logs = VehicleLog.objects.filter(block_ref=block_ref)
-    return render(request, 'vehicle_log/logs_table.html', {'logs': logs})
+    logs = VehicleLog.objects.filter(
+        block_ref=block_ref,
+        origin_departure_time__year=datetime.now().year).select_related(
+        'line', 'origin', 'origin__Stop', 'destination')
+    return render(request, 'vehicle_log/block_ref_log.html',
+                  {'logs': logs, 'title': 'Vognløp %s' % block_ref})
 
 
 def index(request):
