@@ -6,8 +6,8 @@ from rutedata.models import Line
 
 class LogAdmin(admin.ModelAdmin):
     list_display = ('line_ref', 'operator_ref', 'vehicle_ref', 'vehicle_type', 'origin_departure_time')
-    list_filter = ('line_ref', 'operator_ref', 'vehicle_ref')
-    readonly_fields = ['vehicle_type']
+    list_filter = ('origin_departure_time', 'line_ref', 'operator_ref', 'vehicle_ref')
+    readonly_fields = ['vehicle_type', 'origin', 'destination']
 
 
 admin.site.register(VehicleLog, LogAdmin)
