@@ -44,8 +44,7 @@ def split_number(number, prefix=None):
 
 def get_operator(name, prefix):
     operator, created = Operator.objects.get_or_create(
-        name=name,
-        vehicle_prefix=prefix)
+        vehicle_prefix=prefix, defaults={'name': name})
     return operator
 
 
