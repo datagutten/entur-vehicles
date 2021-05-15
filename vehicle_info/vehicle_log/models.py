@@ -24,6 +24,9 @@ class VehicleLog(models.Model):
     destination = models.ForeignKey(Quay, on_delete=models.PROTECT, blank=True,
                                     null=True, related_name='destination_logs')
 
+    class Meta:
+        ordering = ['-origin_departure_time']
+
     def __str__(self):
         if self.line:
             line = self.line
