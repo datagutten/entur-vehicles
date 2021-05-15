@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from vehicle_type.info import VehicleInfo
+from . import info
 from .models import ExpectedVehicle
 
 
@@ -23,12 +24,14 @@ def vehicle_info(request, vehicle_id):
 
 def info_json(request, vehicle_id):
     try:
-        vehicle = VehicleInfo.info(vehicle_id)
+        prefix, number = info.split_number(vehicle_id)
+        vehicle = info.vehicle_type(number, prefix=prefix)
+
         data = {'operator': vehicle.operator.name,
                 'type': vehicle.type,
                 'length': vehicle.length,
                 'year': vehicle.year,
-                'number': vehicle.remove_prefix(vehicle_id),
+                'number': number,
                 'string': str(vehicle),
                 'error': '',
                 }

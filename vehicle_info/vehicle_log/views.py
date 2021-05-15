@@ -3,19 +3,19 @@ from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
-from vehicle_type.info import VehicleInfo
+from vehicle_type import info
 from vehicle_type.models import Vehicle
 from .models import VehicleLog
 
 
 def vehicle_log(request, vehicle_id):
     try:
-        vehicle = VehicleInfo.info(vehicle_id)
-        number = vehicle.remove_prefix(vehicle_id)
+        prefix, number = info.split_number(vehicle_id)
+        vehicle = info.vehicle_type(number, prefix=prefix)
         title = '%s vogn %d' % (vehicle.operator, number)
     except ObjectDoesNotExist:
         vehicle = None
-        prefix, number = VehicleInfo.parse_number(vehicle_id)
+        number = vehicle_id
         title = 'Vogn %d' % number
 
     logs = VehicleLog.objects.filter(vehicle_ref=vehicle_id)
