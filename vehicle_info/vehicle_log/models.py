@@ -1,6 +1,7 @@
 from django.db import models
 
 from rutedata.models import Line, Quay
+from vehicle_type import info
 from vehicle_type.models import Operator, Vehicle
 
 
@@ -10,7 +11,7 @@ class VehicleLog(models.Model):
     line = models.ForeignKey(Line, on_delete=models.SET_NULL, blank=True,
                              null=True, related_name='vehicles')
     block_ref = models.CharField(max_length=200)
-    vehicle_ref = models.IntegerField()
+    vehicle_ref = models.IntegerField(db_index=True)
     origin_quay_ref = models.CharField(max_length=20)
     origin_departure_time = models.DateTimeField()
     operator_ref = models.CharField(max_length=200)
