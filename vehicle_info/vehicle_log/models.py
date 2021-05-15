@@ -38,12 +38,5 @@ class VehicleLog(models.Model):
                              self.vehicle_ref)
 
     def find_vehicle_type(self):
-        from vehicle_type.models import Vehicle
-        from vehicle_type.info import VehicleInfo
-        [prefix, number] = VehicleInfo.parse_number(self.vehicle_ref)
-        # print('Number: %s Prefix: %s' % (number, prefix))
-        try:
-            return Vehicle.objects.get(numlow__lte=number, numhigh__gte=number,
-                                       num_prefix=prefix)
-        except Vehicle.DoesNotExist:
-            pass
+        return info.vehicle_type(prefixed_number=self.vehicle_ref,
+                                 operator=self.operator)
