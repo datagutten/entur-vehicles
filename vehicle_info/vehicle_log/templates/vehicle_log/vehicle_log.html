@@ -1,16 +1,68 @@
-{% extends 'vehicle_log/base.html' %}
-{% block title %}
-<title>Vogn: {{ vehicle.operator }} {{ number }}</title>
-{% endblock %}
+{% extends 'vehicle_type/base.html' %}
+{% load rutedata_tags %}
 {% block body %}
-    <h1>{{ vehicle.operator }} {{ number }}</h1>
     {% if vehicle %}
         <h2>Informasjon om vogn</h2>
-        {{ vehicle.type }} {{ vehicle.length }}m {{ vehicle.year }}<br />
-        Internnummer {{ vehicle.numlow }} - {{ vehicle.numhigh }}
+        <table>
+            <tbody>
+            {% if vehicle.type %}
+                <tr>
+                    <th>Modell</th>
+                    <td>{{ vehicle.type }}</td>
+                </tr>
+            {% endif %}
+            {% if vehicle.length %}
+                <tr>
+                    <th>Lengde</th>
+                    <td>{{ vehicle.length }}m</td>
+                </tr>
+            {% endif %}
+            {% if vehicle.year %}
+                <tr>
+                    <th>Årsmodell</th>
+                    <td>{{ vehicle.year }}</td>
+                </tr>
+            {% endif %}
+            {% if vehicle.fuel %}
+                <tr>
+                    <th>Drivstoff</th>
+                    <td>{{ vehicle.fuel }}</td>
+                </tr>
+            {% endif %}
+
+            <tr>
+                <th>Internnummer fra</th>
+                <td>{{ vehicle.numlow }}</td>
+            <tr>
+                <th>Internummer til</th>
+                <td>{{ vehicle.numhigh }}</td>
+            </tr>
+
+            {% if show_first_and_last %}
+                <tr>
+                    <th>Først sett</th>
+                    <td>{{ first_seen.origin_departure_time }} {{ first_seen.line }}</td>
+                </tr>
+                <tr>
+                    <th>Sist sett</th>
+                    <td>{{ last_seen.origin_departure_time }} {{ last_seen.line }}</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+
+
     {% endif %}
-    <h2>Sett p&aring; linjer</h2>
-    {% include 'vehicle_log/vehicle_seen_on_lines.html' with logs=lines %}
-    <h2>Siste avganger</h2>
-    {% include 'vehicle_log/logs_table.html' %}
+
+    {% if logs.exists %}
+        <h2>Sett p&aring; linjer</h2>
+        {% for line_id, line in lines_seen.items %}
+            <a href="{% url 'logs:line_log' line=line_id %}">{{ line }}</a><br/>
+        {% endfor %}
+        <h2>Avganger</h2>
+        {% include 'vehicle_log/logs_table.html' with hide='vehicle' %}
+    {% else %}
+        <p>Ingen avganger registrert i år.<br/>Sist sett på linje {{ last_seen.line }}
+            fra {{ last_seen.origin_quay_ref|quay_name }} {{ last_seen.origin_departure_time }} </p>
+    {% endif %}
 {% endblock %}

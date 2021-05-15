@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
@@ -9,26 +11,36 @@ from .models import VehicleLog
 def vehicle_log(request, vehicle_id):
     try:
         vehicle = VehicleInfo.info(vehicle_id)
+        number = vehicle.remove_prefix(vehicle_id)
+        title = '%s vogn %d' % (vehicle.operator, number)
     except ObjectDoesNotExist:
         vehicle = None
-
-    try:
-        lines = VehicleInfo.seen_on(vehicle_id)
-    except ObjectDoesNotExist:
-        lines = None
+        prefix, number = VehicleInfo.parse_number(vehicle_id)
+        title = 'Vogn %d' % number
 
     logs = VehicleLog.objects.filter(vehicle_ref=vehicle_id)
-    logs = logs.order_by('origin_departure_time').reverse()
 
-    prefix, number = VehicleInfo.parse_number(vehicle_id)
+    logs = logs.filter(
+        origin_departure_time__year=datetime.now().year).select_related(
+        'line', 'origin', 'origin__Stop')
+    lines_seen = {}
+    if not logs:
+        last_seen = VehicleLog.objects.filter(vehicle_ref=vehicle_id).first()
+    else:
+        last_seen = None
+        for log in logs:
+            if not log.line_id or log.line_id in lines_seen:
+                continue
+            lines_seen[log.line_id] = log.line
 
     return render(request, 'vehicle_log/vehicle_log.html', {
-                           'vehicle': vehicle,
-                           'logs': logs,
-                           'lines': lines,
-                           'vehicle_id': vehicle_id,
-                           'prefix': prefix,
-                           'number': number
+        'vehicle': vehicle,
+        'logs': logs,
+        'lines_seen': lines_seen,
+        'vehicle_id': vehicle_id,
+        'number': number,
+        'last_seen': last_seen,
+        'title': title
     })
 
 
