@@ -3,6 +3,8 @@
 {% block body %}
 
     <a href="{% url 'sanntid:active-vehicles' line=line_id %}">Vis aktive vogner på {{ line_id }}</a>
+    <h2>Siste 30 avganger</h2>
+    {% include 'vehicle_log/logs_table.html' with hide='line' %}
     <table>
         <thead>
         <tr>
@@ -13,6 +15,7 @@
             <th>Årsmodell</th>
         </tr>
         </thead>
+        <h2>Vogner sett på linjen</h2>
         {% for id, vehicle in vehicles %}
             <tr>
                 <td>{{ vehicle.operator }}</td>
