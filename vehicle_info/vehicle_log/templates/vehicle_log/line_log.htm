@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <a href="{% url 'sanntid:active-vehicles' line=line_id %}">Vis aktive vogner på {{ line_id }}</a>
+    <a href="{% url 'sanntid:active-vehicles' line=line_obj.id %}">Vis aktive vogner på linje {{ line_obj.PublicCode }}</a>
     <h2>Siste 30 avganger</h2>
     {% include 'vehicle_log/logs_table.html' with hide='line' %}
     <table>

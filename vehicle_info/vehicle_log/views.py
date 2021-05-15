@@ -3,6 +3,7 @@ from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
+from rutedata.models import Line
 from vehicle_type import info
 from vehicle_type.models import Vehicle
 from .models import VehicleLog
@@ -46,6 +47,7 @@ def vehicle_log(request, vehicle_id):
 
 def line_log(request, line):
     from vehicle_type.info import VehicleInfo
+    line_obj = Line.objects.get(id=line)
     logs = VehicleLog.objects.filter(line_ref=line)
 
     vehicles = logs.values('vehicle_ref').distinct().order_by('vehicle_ref')
@@ -63,8 +65,8 @@ def line_log(request, line):
             vehicles_obj[key] = vehicle['vehicle_ref']
 
     return render(request, 'vehicle_log/line_log.htm', {
-        'title': 'Vogner sett på linje %s' % line,
-        'line_id': line,
+        'title': 'Linje %s' % line_obj,
+        'line_obj': line_obj,
         'vehicles': vehicles_obj.items(),
         'logs': logs,
     })
