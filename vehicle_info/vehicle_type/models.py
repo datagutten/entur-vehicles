@@ -1,5 +1,4 @@
 from django.db import models
-from vehicle_log.models import VehicleLog
 from vehicle_type.info import VehicleInfo
 
 
@@ -33,6 +32,7 @@ class Vehicle(models.Model):
         return str(self.operator) + ' ' + str(self.numlow) + '-' + str(self.numhigh) + ' ' + str(self.type) + ' ' + length + year
 
     def seen_on(self):
+        from vehicle_log.models import VehicleLog
         prefix = self.operator.vehicle_prefix * 10000
         # print(prefix + self.numlow)
         log = VehicleLog.objects.filter(vehicle_ref__gte=prefix + self.numlow, vehicle_ref__lte=prefix + self.numhigh)
