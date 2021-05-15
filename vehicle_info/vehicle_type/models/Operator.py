@@ -9,5 +9,9 @@ class Operator(models.Model):
     class Meta:
         ordering = ['display_name', 'name', 'vehicle_prefix']
 
+    def name_string(self):
+        return self.display_name or self.name
+
     def __str__(self):
-        return self.name
+        return '%s (%s)' % (
+            self.name_string(), self.vehicle_prefix)
