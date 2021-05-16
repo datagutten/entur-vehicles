@@ -2,7 +2,12 @@ language: python
 python:
   - "3.7"
   - "3.8"
-# command to install dependencies
+
+cache: pip
+
+before_install:
+  - python -m pip install --upgrade pip
+
 script:
   - pip install -r requirements.txt
   - cd vehicle_info
