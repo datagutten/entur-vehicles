@@ -48,10 +48,10 @@ def vehicle_log(request, vehicle_id):
 def line_log(request, line):
     from vehicle_type.info import VehicleInfo
     line_obj = Line.objects.get(id=line)
-    logs = VehicleLog.objects.filter(line_ref=line)
+    logs = VehicleLog.objects.filter(line__id=line)
 
     vehicles = logs.values('vehicle_ref').distinct().order_by('vehicle_ref')
-    logs = VehicleLog.objects.filter(line__id=line).select_related(
+    logs = logs.select_related(
         'line', 'origin', 'origin__Stop', 'operator')
     logs = logs.filter(origin_departure_time__year=datetime.now().year)[:30]
 
