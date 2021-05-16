@@ -1,5 +1,5 @@
 dateutils
 django-entur-data>=0.5
 entur-api>=0.11
-django
-django-debug-toolbar
+django~=3
+django-debug-toolbar~=3
