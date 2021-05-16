@@ -18,7 +18,7 @@
         <h2>Vogner sett på linjen</h2>
         {% for id, vehicle in vehicles %}
             <tr>
-                <td>{{ vehicle.operator }}</td>
+                <td>{{ vehicle.operator.name_string }}</td>
                 <td><a href="{% url 'logs:vehicle_log' vehicle_id=id %}"
                        title="Vis logg for {{ vehicle.operator }} {{ id }}">{{ id }}</a></td>
                 <td>{{ vehicle.type }}</td>

@@ -27,7 +27,7 @@ def info_json(request, vehicle_id):
         prefix, number = info.split_number(vehicle_id)
         vehicle = info.vehicle_type(number, prefix=prefix)
 
-        data = {'operator': vehicle.operator.name,
+        data = {'operator': vehicle.operator.name_string(),
                 'type': vehicle.type,
                 'length': vehicle.length,
                 'year': vehicle.year,

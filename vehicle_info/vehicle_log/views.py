@@ -13,7 +13,7 @@ def vehicle_log(request, vehicle_id):
     try:
         prefix, number = info.split_number(vehicle_id)
         vehicle = info.vehicle_type(number, prefix=prefix)
-        title = '%s vogn %d' % (vehicle.operator, number)
+        title = '%s vogn %d' % (vehicle.operator.name_string(), number)
     except ObjectDoesNotExist:
         vehicle = None
         number = vehicle_id
