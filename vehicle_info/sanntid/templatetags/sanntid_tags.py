@@ -1,7 +1,10 @@
+import re
+
 import dateutil.parser
 from django import template
-import re
 from django.core.exceptions import ObjectDoesNotExist
+
+from vehicle_type import info
 
 register = template.Library()
 
@@ -108,16 +111,15 @@ register.filter('delay', delay)
 
 
 def split_number(number):
-    from vehicle_type.info import VehicleInfo
-    number = int(number)
-    try:
-        vehicle = VehicleInfo.info(number)
-        if vehicle.num_prefix:
-            return '%d-%d' % (vehicle.num_prefix, vehicle.remove_prefix(number))
+    prefix, number_split = info.split_number(number)
+    if not prefix:
+        return number
 
+    try:
+        vehicle = info.vehicle_type(number_split, prefix=prefix)
+        return '%d-%d' % (vehicle.operator.vehicle_prefix, number_split)
     except ObjectDoesNotExist:
-        pass
-    return number
+        return number
 
 
 register.filter('split_number', split_number)
