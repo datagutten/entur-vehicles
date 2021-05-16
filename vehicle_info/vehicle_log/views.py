@@ -46,7 +46,6 @@ def vehicle_log(request, vehicle_id):
 
 
 def line_log(request, line):
-    from vehicle_type.info import VehicleInfo
     line_obj = Line.objects.get(id=line)
     logs = VehicleLog.objects.filter(line__id=line)
 
@@ -59,7 +58,7 @@ def line_log(request, line):
     for vehicle in vehicles:
         key = vehicle['vehicle_ref']
         try:
-            vehicle = VehicleInfo.info(vehicle['vehicle_ref'])
+            vehicle = info.vehicle_type(prefixed_number=vehicle['vehicle_ref'])
             vehicles_obj[key] = vehicle
         except Vehicle.DoesNotExist:
             vehicles_obj[key] = vehicle['vehicle_ref']

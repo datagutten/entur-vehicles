@@ -4,9 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from vehicle_type.info import VehicleInfo
 from . import info
-from .models import ExpectedVehicle
+from .models import ExpectedVehicle, Vehicle
 
 
 def index(request):
@@ -15,7 +14,7 @@ def index(request):
 
 def vehicle_info(request, vehicle_id):
     try:
-        vehicle = VehicleInfo.info(vehicle_id)
+        vehicle = info.vehicle_type(prefixed_number=vehicle_id)
     except ObjectDoesNotExist:
         return HttpResponse('Ukjent internnummer: %d' % vehicle_id)
 
@@ -40,21 +39,13 @@ def info_json(request, vehicle_id):
     return HttpResponse(json.dumps(data))
 
 
-def vehicle_info_string(request, vehicle_id):
-    info = VehicleInfo.info(vehicle_id)
-    if not info:
-        return HttpResponse('Ukjent internnummer: ' + str(vehicle_id))
-    else:
-        return HttpResponse(str(info))
-
-
 def vehicle_expected(request, line_number, vehicle_number):
-    info = VehicleInfo.info(vehicle_number)
-    if not info:
-        return HttpResponse('Ukjent internnummer: ' + str(vehicle_number))
     try:
-        excepted = ExpectedVehicle.objects.filter(vehicle_id=info.id).get(line=line_number)
+        vehicle = info.vehicle_type(prefixed_number=vehicle_number)
+        ExpectedVehicle.objects.filter(vehicle=vehicle).get(line=line_number)
+    except Vehicle.DoesNotExist:
+        return HttpResponse('Ukjent internnummer: ' + str(vehicle_number))
     except ExpectedVehicle.DoesNotExist:
         return HttpResponse('%s er ikke forventet på linje %s' % (info, line_number))
 
-    return HttpResponse(info)
+    return HttpResponse(str(vehicle))
