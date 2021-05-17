@@ -51,9 +51,11 @@ def get_stop_departures(stop):
     departures = entur.stop_departures_app(stop, 20)
     departures_sorted = dict()
     for departure in departures['data']['stopPlace']['estimatedCalls']:
-        if not departure['realtime']:
-            continue
-        print('Origin: ', origin_departure_time(departure))
+        # print(departure['realtime'])
+        # if not departure['realtime']:
+        #     continue
+        # TODO: Limit quay departures
+        # print('Origin: ', origin_departure_time(departure))
         # print(departure['realtime'])
         quay_id = departure['quay']['id']
         dest = '%s %s' % (
