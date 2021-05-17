@@ -1,15 +1,14 @@
-from pprint import pprint
-
 import dateutil.parser
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse
-from entur_api.geocoder import GeoCoder
-from entur_api.journey_planner import EnturApi
-from entur_api.siri import Siri
-from sanntid.models import EndStops
-from rutedata.models import Stop
+from django.shortcuts import render
 
-entur = EnturApi('datagutten-sanntidpluss')
+from entur_api import EnturJourneyPlanner, EnturVehicles, GeoCoder
+from entur_api.siri import Siri
+from rutedata.models import Stop
+from sanntid.models import EndStops
+
+entur = EnturJourneyPlanner('datagutten-sanntidpluss')
+vehicles = EnturVehicles('datagutten-sanntidpluss')
 geocoder = GeoCoder('datagutten-sanntidpluss')
 
 
