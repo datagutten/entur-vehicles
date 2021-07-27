@@ -18,10 +18,10 @@ register.filter('line_name', line_name)
 def quay_name(quay_ref):
     try:
         quay = Quay.objects.get(id=quay_ref)
-        if not quay.name:
+        if not quay.Description:
             return quay.Stop.Name
         else:
-            return '%s (%s)' % (quay.Stop.Name, quay.name)
+            return '%s (%s)' % (quay.Stop.Name, quay.Description)
     except Quay.DoesNotExist:
         return quay_ref
 
