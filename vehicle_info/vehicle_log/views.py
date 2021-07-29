@@ -29,10 +29,8 @@ def vehicle_log(request, vehicle_id):
         last_seen = VehicleLog.objects.filter(vehicle_ref=vehicle_id).first()
     else:
         last_seen = None
-        for log in logs:
-            if not log.line_id or log.line_id in lines_seen:
-                continue
-            lines_seen[log.line_id] = log.line
+        lines_seen = logs.exclude(line=None).values('line').distinct().order_by('line')
+        lines_seen = Line.objects.filter(id__in=lines_seen)
 
     return render(request, 'vehicle_log/vehicle_log.html', {
         'vehicle': vehicle,

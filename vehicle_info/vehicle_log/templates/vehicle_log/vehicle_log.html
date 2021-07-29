@@ -56,8 +56,8 @@
 
     {% if logs.exists %}
         <h2>Sett p&aring; linjer</h2>
-        {% for line_id, line in lines_seen.items %}
-            <a href="{% url 'logs:line_log' line=line_id %}">{{ line }}</a><br/>
+        {% for line in lines_seen.all %}
+            <a href="{% url 'logs:line_log' line=line.id %}">{{ line }}</a><br/>
         {% endfor %}
         <h2>Avganger</h2>
         {% include 'vehicle_log/logs_table.html' with hide='vehicle' %}
