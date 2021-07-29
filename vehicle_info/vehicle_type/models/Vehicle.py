@@ -16,7 +16,35 @@ class Vehicle(models.Model):
                                      blank=True, null=True)
     operator = models.ForeignKey(Operator, on_delete=models.PROTECT,
                                  verbose_name='Operatør', blank=True,
-                                 null=True)
+                                 null=True, related_name='vehicles')
+
+    def numbers(self):
+        low = int('%d%04d' % (self.operator.vehicle_prefix, self.numlow))
+        high = int('%d%04d' % (self.operator.vehicle_prefix, self.numhigh))
+        return low, high
+
+    def last_seen(self):
+        return self.logs.first()
+
+    def first_seen(self):
+        return self.logs.last()
+
+    def name(self):
+        if self.length and self.length > 0:
+            length = str(self.length) + 'm '
+        else:
+            length = ''
+
+        if self.year and self.year > 0:
+            year = ' ' + str(self.year)
+        else:
+            year = ''
+
+        return str(self.type) + ' ' + length + year
+
+    def vehicle_prefix(self):
+        if self.operator_id:
+            return self.operator.vehicle_prefix
 
     def __str__(self):
         if self.length and self.length > 0:
