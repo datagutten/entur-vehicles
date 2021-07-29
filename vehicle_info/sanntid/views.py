@@ -48,15 +48,9 @@ def vehicle_data(departure):
 
 
 def get_stop_departures(stop):
-    departures = entur.stop_departures_app(stop, 20)
+    departures = entur.stop_departures_app(stop, 50)
     departures_sorted = dict()
     for departure in departures['data']['stopPlace']['estimatedCalls']:
-        # print(departure['realtime'])
-        # if not departure['realtime']:
-        #     continue
-        # TODO: Limit quay departures
-        # print('Origin: ', origin_departure_time(departure))
-        # print(departure['realtime'])
         quay_id = departure['quay']['id']
         dest = '%s %s' % (
                 departure['serviceJourney']['journeyPattern']['line']['id'],
@@ -65,11 +59,18 @@ def get_stop_departures(stop):
         departure['vehicle'] = vehicle_data(departure)
 
         if quay_id not in departures_sorted:
-            departures_sorted[quay_id] = dict()
-        if dest not in departures_sorted[quay_id]:
-            departures_sorted[quay_id][dest] = []
-
-        departures_sorted[quay_id][dest].append(departure)
+            departures_sorted[quay_id] = {'quay': departure['quay'],
+                                          'destinations': {}}
+        if dest not in departures_sorted[quay_id]['destinations']:
+            departures_sorted[quay_id]['destinations'][dest] = {
+                'destination': departure['destinationDisplay'],
+                'line': departure['serviceJourney']['journeyPattern']['line'],
+                'departures': []
+            }
+        if len(departures_sorted[quay_id]['destinations'][dest][
+                   'departures']) < 5:
+            departures_sorted[quay_id]['destinations'][dest][
+                'departures'].append(departure)
     return departures_sorted
 
 
