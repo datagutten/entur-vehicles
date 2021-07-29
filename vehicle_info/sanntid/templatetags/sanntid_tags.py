@@ -36,9 +36,9 @@ def color(line):
         if line in colours:
             return '#' + colours[line]
         else:
-            return 'none'
+            return '#000000'
     except FileNotFoundError:
-        return 'none'
+        return '#000000'
 
 
 register.filter('color', color)
