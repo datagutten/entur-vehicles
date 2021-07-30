@@ -63,6 +63,6 @@
         {% include 'vehicle_log/logs_table.html' with hide='vehicle' %}
     {% else %}
         <p>Ingen avganger registrert i år.<br/>Sist sett på linje {{ last_seen.line }}
-            fra {{ last_seen.origin_quay_ref|quay_name }} {{ last_seen.origin_departure_time }} </p>
+            fra {{ last_seen.origin_quay_ref|quay_stop_name }} {{ last_seen.origin_departure_time }} </p>
     {% endif %}
 {% endblock %}
