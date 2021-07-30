@@ -3,12 +3,27 @@
 <html lang="no">
 <head>
     <link rel="stylesheet" href="{% static 'vehicle_type/vehicles.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'vehicle_type/menu.css' %}" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>{{ title|default:"Vogninformasjon" }}</title>
     {% block head %}
     {% endblock %}
 </head>
 <body>
+<div class="menu">
+    <ul class="top_menu">
+        <li><a href="{% url 'sanntid:select_stop' %}">Sanntid</a></li>
+        <li><a href="{% url 'logs:vehicle_log' %}">Vogner</a></li>
+        <li><a href="{% url 'logs:operator' %}">Operatører</a></li>
+        <li><a href="">Linjer</a></li>
+        {% comment %}        {% if not user.is_authenticated %}
+            <li><a href="{% url 'account_login' %}">Logg inn</a></li>
+        {% else %}
+            <li><a href="{% url 'account_logout' %}">Logg ut</a></li>
+        {% endif %}{% endcomment %}
+    </ul>
+</div>
 <h1>{{ title|default:"" }}</h1>
 {% block body %}
 {% endblock %}
