@@ -45,21 +45,22 @@ def vehicle_log(request, vehicle_id):
 
 def line_log(request, line):
     line_obj = Line.objects.get(id=line)
-    logs = VehicleLog.objects.filter(line__id=line)
+    logs = VehicleLog.objects.filter(line__id=line,
+                                     origin_departure_time__year=year).\
+        select_related('vehicle_type', 'vehicle_type__operator')
 
-    vehicles = logs.values('vehicle_ref').distinct().order_by('vehicle_ref')
-    logs = logs.select_related(
-        'line', 'origin', 'origin__Stop', 'operator')
+    vehicles_log = logs.order_by('vehicle_ref')
     logs = logs.filter(origin_departure_time__year=datetime.now().year)[:30]
 
     vehicles_obj = {}
-    for vehicle in vehicles:
-        key = vehicle['vehicle_ref']
+    for log in vehicles_log:
+        key = log.vehicle_ref
+        if key in vehicles_obj:
+            continue
         try:
-            vehicle = info.vehicle_type(prefixed_number=vehicle['vehicle_ref'])
-            vehicles_obj[key] = vehicle
+            vehicles_obj[key] = log.vehicle_type
         except Vehicle.DoesNotExist:
-            vehicles_obj[key] = vehicle['vehicle_ref']
+            vehicles_obj[key] = log.vehicle_ref
 
     return render(request, 'vehicle_log/line_log.htm', {
         'title': 'Linje %s' % line_obj,
