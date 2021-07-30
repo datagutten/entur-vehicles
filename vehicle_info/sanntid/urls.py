@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'sanntid'
 urlpatterns = [
-    path('', views.select_stop),
+    path('', views.select_stop, name='select_stop'),
     path('stops_latlon', views.stops_latlon, name='stops_latlon'),
     path('stop/<str:stop>', views.stop_departures, name='stop_departures'),
     path('autocomplete', views.autocomplete, name='autocomplete'),

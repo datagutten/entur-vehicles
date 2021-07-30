@@ -13,13 +13,13 @@ class VehicleLog(models.Model):
     block_ref = models.CharField(max_length=200)
     vehicle_ref = models.IntegerField(db_index=True)
     origin_quay_ref = models.CharField(max_length=20)
-    origin_departure_time = models.DateTimeField()
+    origin_departure_time = models.DateTimeField(db_index=True)
     operator_ref = models.CharField(max_length=200)
 
     operator = models.ForeignKey(Operator, on_delete=models.PROTECT,
-                                 blank=True, null=True)
+                                 blank=True, null=True, related_name='logs')
     vehicle_type = models.ForeignKey(Vehicle, on_delete=models.PROTECT,
-                                     blank=True, null=True)
+                                     blank=True, null=True, related_name='logs')
     origin = models.ForeignKey(Quay, on_delete=models.PROTECT, blank=True,
                                null=True, related_name='origin_logs')
     destination = models.ForeignKey(Quay, on_delete=models.PROTECT, blank=True,
@@ -27,6 +27,9 @@ class VehicleLog(models.Model):
 
     class Meta:
         ordering = ['-origin_departure_time']
+        indexes = [
+            models.Index(fields=['vehicle_ref', 'origin_departure_time'])
+        ]
 
     def __str__(self):
         if self.line:
