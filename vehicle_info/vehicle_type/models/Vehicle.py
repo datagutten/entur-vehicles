@@ -24,10 +24,10 @@ class Vehicle(models.Model):
         return low, high
 
     def last_seen(self):
-        return self.logs.first()
+        return self.logs.select_related('line').first()
 
     def first_seen(self):
-        return self.logs.last()
+        return self.logs.select_related('line').last()
 
     def name(self):
         if self.length and self.length > 0:
