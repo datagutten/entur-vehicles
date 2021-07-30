@@ -2,9 +2,13 @@
 <!doctype html>
 <html lang="no">
 <head>
-<meta charset="utf-8">
-<title>{{ title|default:"" }}</title>
-    <link href="{% static "sanntid/ruter.css" %}" rel="stylesheet" type="text/css">
+    <meta charset="utf-8">
+    <title>{{ title|default:"" }}</title>
+    {% if skin == 'trafikanten' %}
+        <link href="{% static "sanntid/trafikanten.css" %}" rel="stylesheet" type="text/css">
+    {% else %}
+        <link href="{% static "sanntid/ruter.css" %}" rel="stylesheet" type="text/css">
+    {% endif %}
     <link href="{% static "sanntid/css/sanntidpluss.css" %}" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="{% static 'sanntid/js/jquery-3.4.1.min.js' %}"></script>

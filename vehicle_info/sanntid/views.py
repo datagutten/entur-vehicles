@@ -86,7 +86,7 @@ def stop_departures(request, stop):
     except Stop.DoesNotExist:
         stop_name = stop
 
-    return render(request, 'sanntid/departures.html', {'departures': departures_sorted, 'title': stop_name})
+    return render(request, 'sanntid/departures.html', {'departures': departures_sorted, 'title': stop_name, 'skin': request.GET.get('skin')})
 
 
 def select_stop(request):

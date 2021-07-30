@@ -13,10 +13,19 @@
         <h3>Plattform {{ quay.quay.publicCode|default:"" }} {{ quay.quay.description|default:"" }}</h3>
         {% for line, destination in quay.destinations.items %}
         <li>
+            {% if skin == 'trafikanten' %}
+                <div class="heading">
+                    <span class="numBox">{{ destination.line.publicCode }}</span>
+                    <a class="status_link" href="{% url 'sanntid:active-vehicles' line=line|line_id %}">
+                        <span class="departure">{{ destination.destination.frontText }}</span>
+                    </a>
+                </div>
+            {% else %}
             <div class="heading" style="background: {{ line|color }}">
                 <a class="status_link" href="{% url 'sanntid:active-vehicles' line=line|line_id %}">
                 <span style="background: {{ line|color }}">{{ destination.line.publicCode }} {{ destination.destination.frontText }}</span></a>
             </div>
+        {% endif %}
             <div class="list">
             {% for departure in destination.departures %}
                 <span class="item">{{ departure.expectedDepartureTime|time }}
