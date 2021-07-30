@@ -2,56 +2,7 @@
 {% load rutedata_tags %}
 {% block body %}
     {% if vehicle %}
-        <h2>Informasjon om vogn</h2>
-        <table>
-            <tbody>
-            {% if vehicle.type %}
-                <tr>
-                    <th>Modell</th>
-                    <td>{{ vehicle.type }}</td>
-                </tr>
-            {% endif %}
-            {% if vehicle.length %}
-                <tr>
-                    <th>Lengde</th>
-                    <td>{{ vehicle.length }}m</td>
-                </tr>
-            {% endif %}
-            {% if vehicle.year %}
-                <tr>
-                    <th>Årsmodell</th>
-                    <td>{{ vehicle.year }}</td>
-                </tr>
-            {% endif %}
-            {% if vehicle.fuel %}
-                <tr>
-                    <th>Drivstoff</th>
-                    <td>{{ vehicle.fuel }}</td>
-                </tr>
-            {% endif %}
-
-            <tr>
-                <th>Internnummer fra</th>
-                <td>{{ vehicle.numlow }}</td>
-            <tr>
-                <th>Internummer til</th>
-                <td>{{ vehicle.numhigh }}</td>
-            </tr>
-
-            {% if show_first_and_last %}
-                <tr>
-                    <th>Først sett</th>
-                    <td>{{ first_seen.origin_departure_time }} {{ first_seen.line }}</td>
-                </tr>
-                <tr>
-                    <th>Sist sett</th>
-                    <td>{{ last_seen.origin_departure_time }} {{ last_seen.line }}</td>
-                </tr>
-            {% endif %}
-            </tbody>
-        </table>
-
-
+        {% include 'vehicle_log/vehicle_info.html' %}
     {% endif %}
 
     {% if logs.exists %}
