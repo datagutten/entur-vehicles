@@ -8,6 +8,8 @@ from vehicle_type import info
 from vehicle_type.models import Operator, Vehicle
 from .models import VehicleLog
 
+year = datetime.now().year
+
 
 def vehicle_log(request, vehicle_id=None):
     vehicle_id_get = request.GET.get('vehicle')
@@ -82,8 +84,9 @@ def line_log(request, line):
 def block_ref_log(request, block_ref):
     logs = VehicleLog.objects.filter(
         block_ref=block_ref,
-        origin_departure_time__year=datetime.now().year).select_related(
-        'line', 'origin', 'origin__Stop', 'destination')
+        origin_departure_time__year=year).select_related(
+        'line', 'vehicle_type', 'operator', 'vehicle_type__operator', 'origin',
+        'origin__Stop', 'destination')
     return render(request, 'vehicle_log/block_ref_log.html',
                   {'logs': logs, 'title': 'Vognløp %s' % block_ref})
 
