@@ -37,7 +37,7 @@
                 </td>
             {% endif %}
             {% if log.origin_id %}
-                <td>{{ log.origin.Stop.Name }}</td>
+                <td><a href="{{ log.origin|map_link }}">{{ log.origin.Stop.Name }}</a></td>
             {% else %}
                 <td>{{ log.origin_quay_ref|quay_stop_name }}</td>
             {% endif %}

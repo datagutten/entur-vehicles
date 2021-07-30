@@ -5,6 +5,7 @@ from typing import Optional
 register = template.Library()
 quay_cache = {}
 
+
 def line_name(line_ref):
     try:
         line = Line.objects.get(id=line_ref)
@@ -57,6 +58,13 @@ def quay_name(quay_ref):
 
     return ('%s %s' % (
         quay_obj.PublicCode or '', description)).strip()
+
+
+@register.filter
+def map_link(quay_obj: Quay):
+    return 'https://www.google.com/maps/search/?api=1&query=%s%%2C%s&' % (
+        str(quay_obj.latitude).replace(',', '.'),
+        str(quay_obj.longitude).replace(',', '.'))
 
 
 register.filter('quay_name', quay_name)
