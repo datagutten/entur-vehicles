@@ -37,6 +37,16 @@ class VehicleLog(models.Model):
         return '%s %s %s' % (line, self.operator_ref,
                              self.vehicle_ref)
 
+    def vehicle_num(self):
+        if not self.operator or not self.vehicle_type:
+            return self.vehicle_ref
+        else:
+            prefix, number = info.split_number(self.vehicle_ref, self.operator.vehicle_prefix)
+            return number
+
     def find_vehicle_type(self):
-        return info.vehicle_type(prefixed_number=self.vehicle_ref,
-                                 operator=self.operator)
+        if self.vehicle_type:
+            return self.vehicle_type
+        else:
+            return info.vehicle_type(prefixed_number=self.vehicle_ref,
+                                     operator=self.operator)

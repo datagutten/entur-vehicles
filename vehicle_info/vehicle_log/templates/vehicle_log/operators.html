@@ -1,0 +1,16 @@
+{% extends 'vehicle_type/base.html' %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>Navn</th>
+            <th>Prefiks foran internnummer</th>
+        </tr>
+        {% for operator in operators %}
+            <tr>
+                <td><a href="{% url 'logs:operator' prefix=operator.vehicle_prefix %}">{{ operator.name }}</a></td>
+                <td>{{ operator.vehicle_prefix }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

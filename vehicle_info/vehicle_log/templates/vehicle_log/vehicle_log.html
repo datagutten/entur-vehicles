@@ -3,6 +3,9 @@
 {% block body %}
     {% if vehicle %}
         {% include 'vehicle_log/vehicle_info.html' %}
+        <br/><a href="{% url 'logs:vehicle_type' key=vehicle.id %}">Vis alle vogner av typen</a>
+    {% else %}
+        <a href="{% url 'logs:operator' prefix=prefix %}">Vis operatør</a>
     {% endif %}
 
     {% if logs.exists %}

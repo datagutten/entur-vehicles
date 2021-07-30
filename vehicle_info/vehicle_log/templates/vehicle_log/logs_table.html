@@ -29,11 +29,11 @@
             {% endif %}
             {% if hide != 'vehicle' %}
                 <td>
-                {% if log.find_vehicle_type %}
-                <a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.find_vehicle_type }}</a>
+                    {% if log.find_vehicle_type %}
+                        <a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.vehicle_type.operator }} {{ log.vehicle_num }}</a> {{ log.vehicle_type.name }}
                     {% else %}
-                    <a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.vehicle_ref }}</a>
-                {% endif %}
+                        <a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.vehicle_ref }}</a>
+                    {% endif %}
                 </td>
             {% endif %}
             {% if log.origin_id %}

@@ -1,0 +1,26 @@
+{% extends 'vehicle_type/base.html' %}
+{% load rutedata_tags %}
+
+{% block body %}
+    {% include 'vehicle_log/vehicle_info.html' %}
+    <h2>Vogner</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Internnummer</th>
+            <th>Sist sett</th>
+            <th>Linje</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for vehicle in last_seen %}
+            <tr>
+                <td><a href="{% url 'logs:vehicle_log' vehicle_id=vehicle.vehicle_ref %}">{{ vehicle.vehicle_ref }}</a>
+                </td>
+                <td>{{ vehicle.origin_departure_time }}</td>
+                <td>{{ vehicle.line }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
