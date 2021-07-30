@@ -1,0 +1,9 @@
+{% extends 'vehicle_type/base.html' %}
+
+{% block body %}
+    <form method="get" action="{% url 'logs:vehicle_log' %}">
+        <label for="vehicle">Internnummer med prefiks</label>
+        <input name="vehicle" id="vehicle"/>
+        <input type="submit">
+    </form>
+{% endblock %}

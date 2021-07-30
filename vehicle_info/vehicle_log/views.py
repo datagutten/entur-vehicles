@@ -5,13 +5,21 @@ from django.shortcuts import render
 
 from rutedata.models import Line
 from vehicle_type import info
-from vehicle_type.models import Vehicle
+from vehicle_type.models import Operator, Vehicle
 from .models import VehicleLog
 
 
-def vehicle_log(request, vehicle_id):
+def vehicle_log(request, vehicle_id=None):
+    vehicle_id_get = request.GET.get('vehicle')
+    if not vehicle_id and not vehicle_id_get:
+        operators = Operator.objects.all()
+        return render(request, 'vehicle_log/select_vehicle.html',
+                      {'operators': operators})
+    elif vehicle_id_get:
+        vehicle_id = vehicle_id_get
+
+    prefix, number = info.split_number(vehicle_id)
     try:
-        prefix, number = info.split_number(vehicle_id)
         vehicle = info.vehicle_type(number, prefix=prefix)
         title = '%s vogn %d' % (vehicle.operator.name_string(), number)
     except ObjectDoesNotExist:
@@ -39,7 +47,8 @@ def vehicle_log(request, vehicle_id):
         'vehicle_id': vehicle_id,
         'number': number,
         'last_seen': last_seen,
-        'title': title
+        'title': title,
+        'prefix': prefix,
     })
 
 
