@@ -16,7 +16,7 @@
         <li><a href="{% url 'sanntid:select_stop' %}">Sanntid</a></li>
         <li><a href="{% url 'logs:vehicle_log' %}">Vogner</a></li>
         <li><a href="{% url 'logs:operator' %}">Operatører</a></li>
-        <li><a href="">Linjer</a></li>
+        <li><a href="{% url 'logs:lines' %}">Linjer</a></li>
         {% comment %}        {% if not user.is_authenticated %}
             <li><a href="{% url 'account_login' %}">Logg inn</a></li>
         {% else %}
