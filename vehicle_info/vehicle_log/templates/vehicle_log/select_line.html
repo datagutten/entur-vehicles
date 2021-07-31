@@ -1,0 +1,19 @@
+{% extends 'vehicle_type/base.html' %}
+{% block body %}
+    <table>
+        <tr>
+            <th>Linjenummer</th>
+            <th>Strekning</th>
+        </tr>
+
+        {% for line in lines %}
+            <tr>
+                <td>
+                    <a href="{% url 'logs:line_log' line=line.id %}">{{ line.PublicCode }}</a>
+                </td>
+                <td>{{ line.Name }}</td>
+                <td>{{ line.TransportMode }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

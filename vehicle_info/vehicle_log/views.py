@@ -128,5 +128,13 @@ def vehicle_type(request, key):
                   {'vehicle': vehicle_obj, 'last_seen': vehicle_last_seen})
 
 
+def lines_with_log(request):
+    line_ids = VehicleLog.objects.exclude(line=None).values(
+        'line').distinct().order_by('line')
+    lines = Line.objects.filter(id__in=line_ids).order_by('TransportMode',
+                                                          'PublicCode')
+    return render(request, 'vehicle_log/select_line.html', {'lines': lines})
+
+
 def index(request):
     return render(request, 'vehicle_log/index.html')
