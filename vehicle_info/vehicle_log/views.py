@@ -2,11 +2,9 @@ from datetime import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
-from django.http import HttpResponse
 from django.shortcuts import render
 
 from rutedata.models import Line
-from vehicle_log import queries
 from vehicle_type import info
 from vehicle_type.models import Operator, Vehicle
 from .models import VehicleLog
