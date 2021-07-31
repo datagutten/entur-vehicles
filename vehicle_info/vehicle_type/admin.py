@@ -5,7 +5,9 @@ from .models import ExpectedVehicle, Operator, Vehicle
 
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ['type', 'length', 'year', 'num_prefix', 'numlow', 'numhigh']
+    list_display = ['type', 'length', 'year', 'vehicle_prefix', 'numlow', 'numhigh']
+    list_filter = ['operator', 'fuel']
+    save_as = True
 
 
 admin.site.register(Vehicle, VehicleAdmin)
