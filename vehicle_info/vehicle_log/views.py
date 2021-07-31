@@ -1,9 +1,12 @@
 from datetime import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Max
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from rutedata.models import Line
+from vehicle_log import queries
 from vehicle_type import info
 from vehicle_type.models import Operator, Vehicle
 from .models import VehicleLog
@@ -21,6 +24,20 @@ def vehicle_log(request, vehicle_id=None):
         vehicle_id = vehicle_id_get
 
     prefix, number = info.split_number(vehicle_id)
+    if not prefix:
+        log_vehicles = VehicleLog.objects.filter(
+            vehicle_ref__endswith=number).values(
+            'vehicle_ref').distinct().order_by('vehicle_ref')
+        vehicles = Vehicle.objects.filter(numlow__lte=number,
+                                          numhigh__gte=number)
+
+        logs = VehicleLog.objects.filter(vehicle_ref__in=log_vehicles).values(
+            'vehicle_ref').annotate(
+            Max('origin_departure_time')).order_by('vehicle_ref')
+
+        return render(request, 'vehicle_log/select_prefix.html',
+                      {'vehicles': vehicles, 'number': number, 'logs': logs})
+
     try:
         vehicle = info.vehicle_type(number, prefix=prefix)
         title = '%s vogn %d' % (vehicle.operator.name_string(), number)
@@ -39,7 +56,8 @@ def vehicle_log(request, vehicle_id=None):
         last_seen = VehicleLog.objects.filter(vehicle_ref=vehicle_id).first()
     else:
         last_seen = None
-        lines_seen = logs.exclude(line=None).values('line').distinct().order_by('line')
+        lines_seen = logs.exclude(line=None).values(
+            'line').distinct().order_by('line')
         lines_seen = Line.objects.filter(id__in=lines_seen)
 
     return render(request, 'vehicle_log/vehicle_log.html', {
@@ -57,7 +75,7 @@ def vehicle_log(request, vehicle_id=None):
 def line_log(request, line):
     line_obj = Line.objects.get(id=line)
     logs = VehicleLog.objects.filter(line__id=line,
-                                     origin_departure_time__year=year).\
+                                     origin_departure_time__year=year). \
         select_related('vehicle_type', 'vehicle_type__operator')
 
     vehicles_log = logs.order_by('vehicle_ref')

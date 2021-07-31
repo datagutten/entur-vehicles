@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Modell</th>
+        <th>Internnummer</th>
+        <th>Sist sett</th>
+        <th>Sist sett</th>
+    </tr>
+    {% for vehicle in vehicles %}
+        <tr>
+            <td><a href="{% url 'logs:vehicle_type' key=vehicle.id %}">{{ vehicle.type }}</a></td>
+            <td>{{ vehicle.numlow }} - {{ vehicle.numhigh }}</td>
+            <td>{{ vehicle.last_seen.origin_departure_time }}</td>
+            <td>{{ vehicle.last_seen.line|default:"" }}</td>
+        </tr>
+    {% endfor %}
+</table>

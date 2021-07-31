@@ -1,22 +1,7 @@
 {% extends 'vehicle_type/base.html' %}
 {% block body %}
     <h2>Operatørens vogntyper</h2>
-    <table>
-        <tr>
-            <th>Modell</th>
-            <th>Internnummer</th>
-            <th>Sist sett</th>
-            <th>Sist sett</th>
-        </tr>
-        {% for vehicle in operator.vehicles.all %}
-            <tr>
-                <td><a href="{% url 'logs:vehicle_type' key=vehicle.id %}">{{ vehicle.type }}</a></td>
-                <td>{{ vehicle.numlow }} - {{ vehicle.numhigh }}</td>
-                <td>{{ vehicle.last_seen.origin_departure_time }}</td>
-                <td>{{ vehicle.last_seen.line|default:"" }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% include 'vehicle_log/vehicle_type_list.html' with vehicles=operator.vehicles.all %}
     {% if unknown %}
         <h2>Ukjente vogner</h2>
         <table>

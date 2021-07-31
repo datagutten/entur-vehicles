@@ -1,0 +1,30 @@
+{% extends 'vehicle_type/base.html' %}
+
+{% block body %}
+    <h2>Internnummer {{ number }} passer med følgende vogntyper:</h2>
+    {% include 'vehicle_log/vehicle_type_list.html' %}
+    <table>
+        <tr>
+            <th>Operatør</th>
+
+        </tr>
+        {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <table>
+        <tr>
+            <th>Internummer</th>
+            <th>Siste avgang</th>
+        </tr>
+        {% for log in logs %}
+
+            <tr>
+                <td><a href="{% url 'logs:vehicle_log' vehicle_id=log.vehicle_ref %}">{{ log.vehicle_ref }}</a></td>
+                <td>{{ log.origin_departure_time__max }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
