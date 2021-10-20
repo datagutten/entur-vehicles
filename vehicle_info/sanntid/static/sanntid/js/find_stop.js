@@ -2,7 +2,7 @@
 const x = document.getElementById('error');
 $("#holdeplass").keyup(function (event) {
     if (event.target.value.length > 1) {
-        $("#stops").load(autocomplete_url + "?text=" + event.target.value);
+        $("#stops").load(autocomplete_url + "?text=" + encodeURIComponent(event.target.value));
     }
 });
 
